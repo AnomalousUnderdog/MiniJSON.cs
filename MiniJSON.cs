@@ -176,7 +176,7 @@ namespace MiniJSON {
             }
 
             List<object> ParseArray() {
-                List<object> array = new List<object>();
+                List<object> array = null;
 
                 // ditch opening bracket
                 json.Read();
@@ -198,11 +198,17 @@ namespace MiniJSON {
                         object value = ParseByToken(nextToken);
                         if(value==null && nextToken!=TOKEN.NULL)
                             return null;
+                        if (array == null) {
+                            array = new List<object>();
+                        }
                         array.Add(value);
                         break;
                     }
                 }
 
+                if (array == null) {
+                    array = new List<object>();
+                }
                 return array;
             }
 
