@@ -553,7 +553,12 @@ namespace MiniJSON {
                 // They always have, I'm just letting you know.
                 // Previously floats and doubles lost precision too.
                 if (value is float) {
-                    builder.Append(((float) value).ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                    var numberToString = ((float)value).ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+                    if (numberToString.IndexOf('.') < 0 && numberToString.IndexOf("E", StringComparison.OrdinalIgnoreCase) < 0) {
+                        // if whole number, add a ".0" at the end
+                        numberToString = string.Format("{0}.0", numberToString);
+                    }
+                    builder.Append(numberToString);
                 } else if (value is int
                     || value is uint
                     || value is long
@@ -565,7 +570,12 @@ namespace MiniJSON {
                     builder.Append(value);
                 } else if (value is double
                     || value is decimal) {
-                    builder.Append(Convert.ToDouble(value).ToString("R", System.Globalization.CultureInfo.InvariantCulture));
+                    var numberToString = Convert.ToDouble(value).ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+                    if (numberToString.IndexOf('.') < 0 && numberToString.IndexOf("E", StringComparison.OrdinalIgnoreCase) < 0) {
+                        // if whole number, add a ".0" at the end
+                        numberToString = string.Format("{0}.0", numberToString);
+                    }
+                    builder.Append(numberToString);
                 } else {
                     builder.Append(UnityEngine.JsonUtility.ToJson(value));
                 }
