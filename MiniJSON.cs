@@ -567,7 +567,7 @@ namespace MiniJSON {
                     || value is decimal) {
                     builder.Append(Convert.ToDouble(value).ToString("R", System.Globalization.CultureInfo.InvariantCulture));
                 } else {
-                    SerializeString(value.ToString());
+                    builder.Append(UnityEngine.JsonUtility.ToJson(value));
                 }
             }
         }
